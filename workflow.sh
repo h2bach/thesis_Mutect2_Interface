@@ -89,9 +89,10 @@ gatk ApplyBQSR -I ${aligned_reads}/run.paired_sorted_dedup_reads_bs.bam -R ${ref
 # STEP 6: Mutect2
 # -------------------
 
-gatk Mutect2 /path/to/reference_genome.fa \
+gatk Mutect2 -R /path/to/reference_genome.fa \
     -L /path/to/supporting_files/intervals.interval_list \
     -I /path/to/tumor.bam \
+    -I /path/to/normal.bam \
     -germline-resource /path/to/supporting_files/af-only-gnomad.vcf \
     -pon /path/to/supporting_files/panel_of_normals.vcf \
     --f1r2-tar-gz /path/to/data/f1r2.tar.gz \

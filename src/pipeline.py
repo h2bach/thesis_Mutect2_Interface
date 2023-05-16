@@ -1,5 +1,4 @@
 import docker
-import client_setup
 import os
 
 def seqtk(filepaths,rate):

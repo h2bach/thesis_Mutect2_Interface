@@ -17,63 +17,48 @@ class FilterMutectCalls(Interface):
         input_panel.grid_columnconfigure(1, weight=1)
 
         # Create input fields
-        input_tumor_label = ttk.Label(input_panel, text="Input aligned tumor BAM/SAM:")
-        input_tumor_label.grid(row=0, column=0, sticky=tk.W)
-        input_tumor_entry = ttk.Entry(input_panel)
-        input_tumor_entry.grid(row=0, column=1, padx=5, pady=5, sticky=tk.W+tk.E)
+        unfiltered_vcf_label = ttk.Label(input_panel, text="Input unfiltered variant calls:")
+        unfiltered_vcf_label.grid(row=0, column=0, sticky=tk.W)
+        unfiltered_vcf_entry = ttk.Entry(input_panel)
+        unfiltered_vcf_entry.grid(row=0, column=1, padx=5, pady=5, sticky=tk.W+tk.E)
 
-        input_normal_label = ttk.Label(input_panel, text="Input aligned normal BAM/SAM:")
-        input_normal_label.grid(row=1, column=0, sticky=tk.W)
-        input_normal_entry = ttk.Entry(input_panel)
-        input_normal_entry.grid(row=1, column=1, padx=5, pady=5, sticky=tk.W+tk.E)
-
-        ref_genome_label = ttk.Label(input_panel, text="Reference genome:")
-        ref_genome_label.grid(row=2, column=0, sticky=tk.W)
-        ref_genome_entry = ttk.Entry(input_panel)
-        ref_genome_entry.grid(row=2, column=1, padx=5, pady=5, sticky=tk.W+tk.E)
+        tumor_bam_label = ttk.Label(input_panel, text="Input aligned tumor BAM/SAM:")
+        tumor_bam_label.grid(row=1, column=0, sticky=tk.W)
+        tumor_bam_entry = ttk.Entry(input_panel)
+        tumor_bam_entry.grid(row=1, column=1, padx=5, pady=5, sticky=tk.W+tk.E)
 
         interval_list_label = ttk.Label(input_panel, text="Interval list:")
-        interval_list_label.grid(row=3, column=0, sticky=tk.W)
+        interval_list_label.grid(row=2, column=0, sticky=tk.W)
         interval_list_entry = ttk.Entry(input_panel)
-        interval_list_entry.grid(row=3, column=1, padx=5, pady=5, sticky=tk.W+tk.E)
+        interval_list_entry.grid(row=2, column=1, padx=5, pady=5, sticky=tk.W+tk.E)
     
-        germline_resource_label = ttk.Label(input_panel, text="Germline resources:")
-        germline_resource_label.grid(row=4, column=0, sticky=tk.W)
-        germline_resource_entry = ttk.Entry(input_panel)
-        germline_resource_entry.grid(row=4, column=1, padx=5, pady=5, sticky=tk.W+tk.E)
-
-        pon_label = ttk.Label(input_panel, text="Panel of Normals:")
-        pon_label.grid(row=5, column=0, sticky=tk.W)
-        pon_entry = ttk.Entry(input_panel)
-        pon_entry.grid(row=5, column=1, padx=5, pady=5, sticky=tk.W+tk.E)
+        pop_variant_sites_label = ttk.Label(input_panel, text="Popular variant sites:")
+        pop_variant_sites_label.grid(row=3, column=0, sticky=tk.W)
+        pop_variant_sites_entry = ttk.Entry(input_panel)
+        pop_variant_sites_entry.grid(row=3, column=1, padx=5, pady=5, sticky=tk.W+tk.E)
 
         f1r2_tar_gz_label = ttk.Label(input_panel, text="F1R2:")
-        f1r2_tar_gz_label.grid(row=6, column=0, sticky=tk.W)
+        f1r2_tar_gz_label.grid(row=4, column=0, sticky=tk.W)
         f1r2_tar_gz_entry = ttk.Entry(input_panel)
-        f1r2_tar_gz_entry.grid(row=6, column=1, padx=5, pady=5, sticky=tk.W+tk.E)
+        f1r2_tar_gz_entry.grid(row=4, column=1, padx=5, pady=5, sticky=tk.W+tk.E)
 
-        output_label = ttk.Label(input_panel, text="Output Directory:")
-        output_label.grid(row=7, column=0, sticky=tk.W)
-        output_entry = ttk.Entry(input_panel)
-        output_entry.grid(row=7, column=1, padx=5, pady=5, sticky=tk.W+tk.E)
-
-        output_bam_label = ttk.Label(input_panel, text="BAM-output Directory:")
-        output_bam_label.grid(row=8, column=0, sticky=tk.W)
-        output_bam_entry = ttk.Entry(input_panel)
-        output_bam_entry.grid(row=8, column=1, padx=5, pady=5, sticky=tk.W+tk.E)
+        output_vcf_label = ttk.Label(input_panel, text="Output file name:")
+        output_vcf_label.grid(row=5, column=0, sticky=tk.W)
+        output_vcf_entry = ttk.Entry(input_panel)
+        output_vcf_entry.grid(row=5, column=1, padx=5, pady=5, sticky=tk.W+tk.E)
 
         # Create a button to process the entered data
         process_button = ttk.Button(input_panel, text="Process", 
-                            command=lambda: self.process_data(input_tumor_entry, input_normal_entry, interval_list_entry, ref_genome_entry, germline_resource_entry, pon_entry, f1r2_tar_gz_entry, output_entry, output_bam_entry, result_text))
-        process_button.grid(row=9, column=0, columnspan=2, pady=10)
+                            command=lambda: self.process_data(unfiltered_vcf_entry, tumor_bam_entry, interval_list_entry, pop_variant_sites_entry, f1r2_tar_gz_entry, output_vcf_entry,result_text))
+        process_button.grid(row=6, column=0, columnspan=2, pady=10)
 
         # Create a label for displaying the result
         result_text = tk.Text(input_panel, width=200, height=50, relief="sunken")
-        result_text.grid(row=10, column=0, columnspan=2, sticky=tk.W+tk.E+tk.N+tk.S)
+        result_text.grid(row=7, column=0, columnspan=2, sticky=tk.W+tk.E+tk.N+tk.S)
 
         # Create a frame for the export button
         export_frame = ttk.Frame(input_panel)
-        export_frame.grid(row=11, column=0, columnspan=2, pady=10, sticky=tk.E)
+        export_frame.grid(row=8, column=0, columnspan=2, pady=10, sticky=tk.E)
 
         # Create a button to export the result
         export_button = ttk.Button(export_frame, text="Export", command=lambda: self.export_data(result_text))
@@ -83,17 +68,23 @@ class FilterMutectCalls(Interface):
         return result_text
  
     
-    def process_data(self, input_tumor_entry, input_normal_entry, interval_list_entry, ref_genome_entry, germline_resource_entry, pon_entry, f1r2_tar_gz_entry, output_entry, output_bam_entry,result_text):
-        input_tumor = input_tumor_entry.get()
-        input_normal = input_normal_entry.get()
+    def process_data(self, unfiltered_vcf_entry, tumor_bam_entry, interval_list_entry, pop_variant_sites_entry, f1r2_tar_gz_entry, output_vcf_entry,result_text):
+        unfiltered_vcf = unfiltered_vcf_entry.get()
+        tumor_bam = tumor_bam_entry.get()
         interval_list = interval_list_entry.get()
-        ref_genome = ref_genome_entry.get()
-        germline_resource = germline_resource_entry.get()
-        pon = pon_entry.get()
+        pop_variant_sites = pop_variant_sites_entry.get()
         f1r2_tar_gz =f1r2_tar_gz_entry.get()
-        output = output_entry.get()
-        output_bam = output_bam_entry.get()
-        result = f"gatk Mutect2 -R {ref_genome} -L {interval_list} -I {input_tumor} -I {input_normal} --germline-resource {germline_resource} -pon {pon} --f1r2-tar-gz {f1r2_tar_gz} -O {output} -bamout {output_bam}"
+        output_vcf = output_vcf_entry.get()
+        result = f"gatk LearnOrientationModel -I {f1r2_tar_gz} -O read-orientation-model.tar.gz\n"
+        result += f"gatk GetPileupSummaries -I {tumor_bam} -V {pop_variant_sites} -L {interval_list} -O pileupsummaries.table\n"
+        result += f"gatk CalculateContamination -I pileupsummaries.table -tumor-segmentation segments.table -O contamination.table\n"
+        result += f"gatk FilterMutectCalls -V {unfiltered_vcf} --tumor-segmentation segments.table --contamination-table contamination.table --ob-priors read-orientation-model.tar.gz -O {output_vcf}"
+
+        # gatk FilterMutectCalls -V unfiltered.vcf \
+        # --tumor-segmentation segments.table \
+        # --contamination-table contamination.table] \
+        # --ob-priors read-orientation-model.tar.gz \
+        # -O filtered.vcf
 
         # Clear previous text content
         result_text.delete('1.0', tk.END)
